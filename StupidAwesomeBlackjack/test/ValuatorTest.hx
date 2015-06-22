@@ -1,3 +1,4 @@
+package;
 import game.Card;
 import game.Card.Pip;
 import game.Card.Suite.Clubs;
@@ -13,7 +14,7 @@ class ValuatorTest extends TestCase {
 	override public function setup()
 	{
 		testHand = new Hand();
-		testCards = new Array<Card>;
+		testCards = new Array<Card>();
 	}
 
 	public function testBasic()
