@@ -29,6 +29,8 @@
 	
 	<set name="BUILD_DIR" value="export" />
 	<classpath name="source" />
+	<!-- TODO: create a script for each source containing  subfolder in the project dir -->
+	<haxeflag name="--macro" value="include('game')" />
 	<assets path="assets" />
 	
 	<!--------------------------------LIBRARIES------------------------------------->
