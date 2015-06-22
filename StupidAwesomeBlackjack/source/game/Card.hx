@@ -5,10 +5,9 @@ enum Suite{
 	Spades;
 	Clubs;
 	Diamonds;
-	None;
 }
 
-enum Face {
+enum Pip {
 	ACE;
 	TWO;
 	THREE;
@@ -22,15 +21,15 @@ enum Face {
 	JACK;
 	QUEEN;
 	KING;
-	None;
 }
 
 class Card {
-	var _suite = Suite.None;
-	var _face = Face.None;
+	public var suite:Suite;
+	public var pip:Pip;
 
-	public function new(suite : Suite, face : Face)
+	public function new(suite : Suite, pip : Pip)
 	{
-		_suite = suite;
+		this.suite = suite;
+		this.pip = pip;
 	}
 }
