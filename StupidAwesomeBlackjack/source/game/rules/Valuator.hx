@@ -1,12 +1,18 @@
 package game.rules;
 
 import game.*;
+import game.Card;
+
+using Lambda;
 
 class Valuator {
 	public static function getValue(hand:Hand):Int{
-		//var cardValues = hand.car
+		var values = hand.getCards().map(function(c:Card){
+			return Valuator.getCardValue(c);
+		});
 
-		return 0;
+
+		return Lambda.fold(values, function(v1, v2){ return v1+v2;}, 0);
 	}
 
 	public static function getCardValue(card:Card):Int

@@ -8,7 +8,7 @@ import game.rules.Valuator;
 import haxe.unit.TestCase ;
 
 class ValuatorTest extends TestCase {
-	var testHand(get, set):Hand = new Hand();
+	var testHand:Hand = new Hand();
 	var testCards:Array<Card>;
 
 	override public function setup()
