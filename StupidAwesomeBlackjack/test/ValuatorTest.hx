@@ -48,19 +48,44 @@ class ValuatorTest extends TestCase {
 		assertEquals(47, Valuator.calculateValue(testHand));
 	}
 
-	public function testSoft()
+	public function testSoftify()
 	{
 		testHand.addCard(new Card(Clubs,Pip.ACE));
 		assertEquals(11, Valuator.calculateValue(testHand));
+
 		testHand.addCard(new Card(Clubs,Pip.ACE));
 		assertEquals(12, Valuator.calculateValue(testHand));
 
-
 		testHand.addCard(new Card(Clubs,Pip.ACE));
 		assertEquals(13, Valuator.calculateValue(testHand));
+
 		testHand.addCard(new Card(Clubs,Pip.KING));
 		assertEquals(13, Valuator.calculateValue(testHand));
+
 		testHand.addCard(new Card(Clubs,Pip.ACE));
 		assertEquals(14, Valuator.calculateValue(testHand));
+	}
+
+	public function testGetSoftness()
+	{
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		assertEquals(11, Valuator.calculateValue(testHand));
+		assertEquals(Softness.SOFT, Valuator.calculateHandSoftness(testHand));
+
+		testHand.addCard(new Card(Clubs,Pip.FIVE));
+		assertEquals(16, Valuator.calculateValue(testHand));
+		assertEquals(Softness.SOFT, Valuator.calculateHandSoftness(testHand));
+
+		testHand.addCard(new Card(Clubs,Pip.FIVE));
+		assertEquals(21, Valuator.calculateValue(testHand));
+		assertEquals(Softness.SOFT, Valuator.calculateHandSoftness(testHand));
+
+		testHand.addCard(new Card(Clubs,Pip.FIVE));
+		assertEquals(16, Valuator.calculateValue(testHand));
+		assertEquals(Softness.HARD, Valuator.calculateHandSoftness(testHand));
+
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		assertEquals(17, Valuator.calculateValue(testHand));
+		assertEquals(Softness.HARD, Valuator.calculateHandSoftness(testHand));
 	}
 }
