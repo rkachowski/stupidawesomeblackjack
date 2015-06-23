@@ -7,17 +7,24 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 
+import game.Shoe;
+
 /**
  * A FlxState which can be used for the actual gameplay.
  */
 class PlayState extends FlxState
 {
+	var _shoe:Shoe;
+
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void
 	{
 		super.create();
+
+		_shoe = new Shoe(4);
+		trace(_shoe);
 	}
 	
 	/**
