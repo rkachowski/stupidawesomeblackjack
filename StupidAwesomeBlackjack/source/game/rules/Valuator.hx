@@ -2,17 +2,50 @@ package game.rules;
 
 import game.*;
 import game.Card;
+import util.Func.*;
 
 using Lambda;
 
+enum Softness{
+	HARD;
+	SOFT;
+}
+
 class Valuator {
-	public static function getValue(hand:Hand):Int{
-		var values = hand.getCards().map(function(c:Card){
+	public static function calculateValue(hand:Hand):Int{
+		var cardValues = hand.getCards().map(function(c:Card){
 			return Valuator.getCardValue(c);
 		});
 
+		return sumi(softify(cardValues));
+	}
 
-		return Lambda.fold(values, function(v1, v2){ return v1+v2;}, 0);
+	public static function calculateSoftness(values:Array<Int>):Softness
+	{
+		var hand = softify(values);
+
+		return if (Lambda.has(hand, 11)) Softness.SOFT else Softness.HARD;
+	}
+
+	public static function calculateHandSoftness(hand:Hand):Softness
+	{
+		return calculateSoftness(hand.getCards().map(function(c:Card){
+			return Valuator.getCardValue(c);
+		}));
+	}
+
+	static function softify(values:Array<Int>):Array<Int>
+	{
+		if(Lambda.has(values, 11) && sumi(values) > 21)
+		{
+			var result = values.copy();
+			result[result.indexOf(11)] = 1;
+			return softify(result);
+		}
+		else
+		{
+			return values;
+		}
 	}
 
 	public static function getCardValue(card:Card):Int

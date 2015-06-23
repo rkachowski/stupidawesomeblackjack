@@ -22,6 +22,45 @@ class ValuatorTest extends TestCase {
 		testHand.addCard(new Card(Clubs,Pip.TWO));
 		testHand.addCard(new Card(Clubs,Pip.TWO));
 
-		assertEquals(4, Valuator.getValue(testHand));
+		assertEquals(4, Valuator.calculateValue(testHand));
+	}
+
+	public function testMore()
+	{
+		assertEquals(0, Valuator.calculateValue(testHand));
+
+		testHand.addCard(new Card(Clubs,Pip.KING));
+		assertEquals(10, Valuator.calculateValue(testHand));
+
+		testHand.addCard(new Card(Clubs,Pip.TWO));
+		assertEquals(12, Valuator.calculateValue(testHand));
+
+		testHand.addCard(new Card(Clubs,Pip.FIVE));
+		assertEquals(17, Valuator.calculateValue(testHand));
+
+		testHand.addCard(new Card(Clubs,Pip.TEN));
+		assertEquals(27, Valuator.calculateValue(testHand));
+
+		testHand.addCard(new Card(Clubs,Pip.JACK));
+		assertEquals(37, Valuator.calculateValue(testHand));
+
+		testHand.addCard(new Card(Clubs,Pip.QUEEN));
+		assertEquals(47, Valuator.calculateValue(testHand));
+	}
+
+	public function testSoft()
+	{
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		assertEquals(11, Valuator.calculateValue(testHand));
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		assertEquals(12, Valuator.calculateValue(testHand));
+
+
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		assertEquals(13, Valuator.calculateValue(testHand));
+		testHand.addCard(new Card(Clubs,Pip.KING));
+		assertEquals(13, Valuator.calculateValue(testHand));
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		assertEquals(14, Valuator.calculateValue(testHand));
 	}
 }
