@@ -87,5 +87,9 @@ class ValuatorTest extends TestCase {
 		testHand.addCard(new Card(Clubs,Pip.ACE));
 		assertEquals(17, Valuator.calculateValue(testHand));
 		assertEquals(Softness.HARD, Valuator.calculateHandSoftness(testHand));
+
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		assertEquals(18, Valuator.calculateValue(testHand));
+		assertEquals(Softness.HARD, Valuator.calculateHandSoftness(testHand));
 	}
 }

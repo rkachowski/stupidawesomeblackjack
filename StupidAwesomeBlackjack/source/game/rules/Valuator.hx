@@ -11,8 +11,10 @@ enum Softness{
 	SOFT;
 }
 
-class Valuator {
-	public static function calculateValue(hand:Hand):Int{
+class Valuator 
+{
+	public static function calculateValue(hand:Hand):Int
+	{
 		var cardValues = hand.getCards().map(function(c:Card){
 			return Valuator.getCardValue(c);
 		});
@@ -22,9 +24,7 @@ class Valuator {
 
 	public static function calculateSoftness(values:Array<Int>):Softness
 	{
-		var hand = softify(values);
-
-		return if (Lambda.has(hand, 11)) Softness.SOFT else Softness.HARD;
+		return if (Lambda.has(softify(values), 11)) Softness.SOFT else Softness.HARD;
 	}
 
 	public static function calculateHandSoftness(hand:Hand):Softness
