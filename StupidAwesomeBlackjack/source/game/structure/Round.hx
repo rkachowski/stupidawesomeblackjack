@@ -1,34 +1,52 @@
 package game.structure;
 
+import game.Hand;
 import game.Shoe;
-import game.structure.Player;
 import game.rules.Valuator;
 
 class Round {
 
-	var _player:Player;
-	var _dealer:Dealer;
+	var _hands:Array<Hand>;
 	var _shoe:Shoe;
 
-	public function new(?player:Player, ?dealer:Dealer, ?shoe:Shoe)
+	public function new(?shoe:Shoe)
 	{
-		if(player == null) _player = new Player() else _player = player;
-		if(dealer == null) _dealer = new Dealer() else _dealer = dealer;
 		if(shoe == null) _shoe = new Shoe(4) else _shoe = shoe;
+		_hands = new Array<Hand>();
+
+		_hands.push(new Hand()); // dealer
+		_hands.push(new Hand()); // player
 
 		deal();
 	}
 
 	public function deal()
 	{
-		//TODO: take bets
+		addPlayerCard();
+		addPlayerCard();
 
-		_player.addCard(_shoe.takeCard());
-		_player.addCard(_shoe.takeCard());
+		addDealerCard();
+	}
 
-		_dealer.addCard(_shoe.takeCard());
+	public function addPlayerCard(?split_no:Int = 0)
+	{
+		_hands[1 + split_no].addCard(_shoe.takeCard());
+	}
 
-		trace("player - " + Valuator.calculateValue(_player.getHand()));
-		trace("dealer - " + Valuator.calculateValue(_dealer.getHand()));
+	public function addDealerCard()
+	{
+		_hands[0].addCard(_shoe.takeCard());
+	}
+
+	public function getRoundValue()
+	{
+		return _hands.map(function(h) {
+			return {softness : Valuator.calculateHandSoftness(h), value:Valuator.calculateValue(h)};
+		});
+	}
+
+	public function getHand(hand_number:Int):Hand
+	{
+		return _hands[hand_number];
 	}
 }

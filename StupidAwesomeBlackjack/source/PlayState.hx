@@ -18,15 +18,32 @@ class PlayState extends FlxState
 	var _shoe:Shoe;
 	var _round:Round;
 
+	var _playerScore:FlxText;
+	var _dealerScore:FlxText;
+	var _hitButton:FlxButton;
+	var _standButton:FlxButton;
+
 	/**
 	 * Function that is called up when to state is created to set it up. 
 	 */
 	override public function create():Void
 	{
 		super.create();
-
 		_shoe = new Shoe(4);
-		_round = new Round(null, null, _shoe);
+		_round = new Round(_shoe);
+
+		setupUI();
+	}
+
+	function setupUI()
+	{
+		_playerScore = new FlxText(20,200,300,"PLAYER SCOREWWWWWWW");
+		_dealerScore = new FlxText(20,20,300,"DEALER SCOREWWWWWWW");
+
+		updateScores();
+
+		add(_playerScore);
+		add(_dealerScore);
 	}
 	
 	/**
@@ -38,6 +55,14 @@ class PlayState extends FlxState
 		super.destroy();
 	}
 
+	function updateScores()
+	{
+		var value = _round.getRoundValue();
+
+		_dealerScore.text = "Dealer - " + value[0].softness +" " + value[0].value + " " +_round.getHand(0);
+		_playerScore.text = "Player - " + value[1].softness +" " + value[1].value + " " +_round.getHand(1);
+	}
+
 	/**
 	 * Function that is called once every frame.
 	 */
@@ -47,7 +72,8 @@ class PlayState extends FlxState
 
 		if(FlxG.mouse.justReleased)
 		{
-			_round = new Round(null, null, _shoe);
+			_round = new Round(_shoe);
+			updateScores();
 		}
 	}	
 }

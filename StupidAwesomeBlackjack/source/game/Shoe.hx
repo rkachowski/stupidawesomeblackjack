@@ -23,6 +23,7 @@ class Shoe {
 
 	public function takeCard():Card
 	{
+		//TODO: check if shoe should be changed
 		var card = _cards.pop();
 
 		//TODO: update statistics
