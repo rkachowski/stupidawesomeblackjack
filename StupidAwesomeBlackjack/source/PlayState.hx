@@ -8,6 +8,7 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 
 import game.Shoe;
+import game.structure.Round;
 
 /**
  * A FlxState which can be used for the actual gameplay.
@@ -15,6 +16,7 @@ import game.Shoe;
 class PlayState extends FlxState
 {
 	var _shoe:Shoe;
+	var _round:Round;
 
 	/**
 	 * Function that is called up when to state is created to set it up. 
@@ -24,7 +26,7 @@ class PlayState extends FlxState
 		super.create();
 
 		_shoe = new Shoe(4);
-		trace(_shoe);
+		_round = new Round(null, null, _shoe);
 	}
 	
 	/**
@@ -42,5 +44,10 @@ class PlayState extends FlxState
 	override public function update():Void
 	{
 		super.update();
+
+		if(FlxG.mouse.justReleased)
+		{
+			_round = new Round(null, null, _shoe);
+		}
 	}	
 }
