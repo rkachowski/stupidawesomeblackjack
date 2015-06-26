@@ -3,50 +3,62 @@ package game.structure;
 import game.Hand;
 import game.Shoe;
 import game.rules.Valuator;
+import structure.Dealer;
 
-class Round {
+class Round
+{
 
-	var _hands:Array<Hand>;
-	var _shoe:Shoe;
+    var _hands:Array<Hand>;
+    var _shoe:Shoe;
 
-	public function new(?shoe:Shoe)
-	{
-		if(shoe == null) _shoe = new Shoe(4) else _shoe = shoe;
-		_hands = new Array<Hand>();
+    public function new(?shoe:Shoe)
+    {
+        if (shoe == null) _shoe = new Shoe(4) else _shoe = shoe;
+        _hands = new Array<Hand>();
 
-		_hands.push(new Hand()); // dealer
-		_hands.push(new Hand()); // player
+        _hands.push(new Hand()); // dealer
+        _hands.push(new Hand()); // player
 
-		deal();
-	}
+        deal();
+    }
 
-	public function deal()
-	{
-		addPlayerCard();
-		addPlayerCard();
+    public function deal()
+    {
+        addPlayerCard();
+        addPlayerCard();
 
-		addDealerCard();
-	}
+        addDealerCard();
+    }
 
-	public function addPlayerCard(?split_no:Int = 0)
-	{
-		_hands[1 + split_no].addCard(_shoe.takeCard());
-	}
+    public function dealerTurn()
+    {
+    	if(Dealer.shouldHit(_hands[0]))
+    	{
+    		addDealerCard();
+    		dealerTurn();
+    	}
+    }
 
-	public function addDealerCard()
-	{
-		_hands[0].addCard(_shoe.takeCard());
-	}
+    public function addPlayerCard(?split_no:Int = 0)
+    {
+        _hands[1 + split_no].addCard(_shoe.takeCard());
+    }
 
-	public function getRoundValue()
-	{
-		return _hands.map(function(h) {
-			return {softness : Valuator.calculateHandSoftness(h), value:Valuator.calculateValue(h)};
-		});
-	}
+    function addDealerCard()
+    {
+        _hands[0].addCard(_shoe.takeCard());
+    }
 
-	public function getHand(hand_number:Int):Hand
-	{
-		return _hands[hand_number];
-	}
+    public function getRoundValue()
+    {
+        return _hands.map(function(h)
+        {
+            return {softness : Valuator.calculateHandSoftness(h), value:Valuator.calculateValue(h)};
+        });
+    }
+
+    public function getHand(hand_number:Int):Hand
+    {
+        return _hands[hand_number];
+    }
 }

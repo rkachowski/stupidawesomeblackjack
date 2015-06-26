@@ -60,6 +60,7 @@ class Main extends Sprite
 			var ratioY:Float = stageHeight / gameHeight;
 			zoom = Math.min(ratioX, ratioY);
 			gameWidth = Math.ceil(stageWidth / zoom);
+
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 

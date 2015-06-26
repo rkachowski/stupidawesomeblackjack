@@ -22,6 +22,7 @@ class PlayState extends FlxState
 	var _dealerScore:FlxText;
 	var _hitButton:FlxButton;
 	var _standButton:FlxButton;
+	var _nextButton:FlxButton;
 
 	/**
 	 * Function that is called up when to state is created to set it up. 
@@ -30,22 +31,34 @@ class PlayState extends FlxState
 	{
 		super.create();
 		_shoe = new Shoe(4);
-		_round = new Round(_shoe);
 
 		setupUI();
+		newRound();
 	}
 
 	function setupUI()
 	{
-		_playerScore = new FlxText(20,200,300,"PLAYER SCOREWWWWWWW");
-		_dealerScore = new FlxText(20,20,300,"DEALER SCOREWWWWWWW");
-
-		updateScores();
+		_playerScore = new FlxText(20,200,300,"WWWWWWWWWWWWWWWWWW");
+		_dealerScore = new FlxText(20,20,300,"WWWWWWWWWWWWWWWWWW");
+		_hitButton = new FlxButton(350,200,"Hit",onHit);
+		_standButton = new FlxButton(350,220,"Stand",onStand);
+		_nextButton = new FlxButton(350,240,"Next Round",onNext);
+		_nextButton.active = false;
 
 		add(_playerScore);
 		add(_dealerScore);
+		add(_hitButton);
+		add(_standButton);
+		add(_nextButton);
 	}
 	
+	function newRound()
+	{
+		_round = new Round(_shoe);
+		_nextButton.active = false;
+		updateScores();
+	}
+
 	/**
 	 * Function that is called when this state is destroyed - you might want to 
 	 * consider setting all objects this state uses to null to help garbage collection.
@@ -53,6 +66,24 @@ class PlayState extends FlxState
 	override public function destroy():Void
 	{
 		super.destroy();
+	}
+
+	function onHit()
+	{
+		_round.addPlayerCard();
+		updateScores();
+	}
+
+	function onStand()
+	{
+		_round.dealerTurn();
+		updateScores();
+		_nextButton.active = true;
+	}
+
+	function onNext()
+	{
+		newRound();
 	}
 
 	function updateScores()
@@ -69,11 +100,5 @@ class PlayState extends FlxState
 	override public function update():Void
 	{
 		super.update();
-
-		if(FlxG.mouse.justReleased)
-		{
-			_round = new Round(_shoe);
-			updateScores();
-		}
 	}	
 }
