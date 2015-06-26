@@ -59,7 +59,7 @@ class Valuator
 	}
 
 	public static function getCardValue(card:Card):Int
-	{
+	{		
 		return switch (card.pip) {
 			case ACE: 11;
 			case TWO: 2;

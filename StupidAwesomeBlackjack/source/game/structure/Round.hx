@@ -5,9 +5,10 @@ import game.Shoe;
 import game.rules.Valuator;
 import structure.Dealer;
 
+
 class Round
 {
-    var DEALER_HAND:Int = 0;
+    public static var DEALER_HAND:Int = 0;
 
     var _hands:Array<Hand>;
     var _shoe:Shoe;
@@ -17,8 +18,8 @@ class Round
         if (shoe == null) _shoe = new Shoe(4) else _shoe = shoe;
         _hands = new Array<Hand>();
 
-        _hands.push(new Hand()); // dealer
-        _hands.push(new Hand()); // player
+        _hands.push(new Hand()); // dealer (index 0)
+        _hands.push(new Hand()); // player (index > 0)
 
         deal();
     }
@@ -27,7 +28,6 @@ class Round
     {
         addPlayerCard();
         addPlayerCard();
-
         addDealerCard();
     }
 
@@ -63,6 +63,16 @@ class Round
         return _hands[hand_number];
     }
 
+    public function getDealerHand():Hand
+    {
+        return _hands[DEALER_HAND];
+    }
+
+     public function getPlayerHand():Hand
+    {
+        return _hands[DEALER_HAND + 1]; // TODO:change this to support splits etc
+    }
+
     public function isPlayerBust():Bool
     {
         for(hand in _hands.slice(DEALER_HAND + 1))
@@ -71,5 +81,15 @@ class Round
         }
 
         return true;
+    }
+
+    public function playerHasBlackjack():Bool
+    {
+        for(hand in _hands.slice(DEALER_HAND + 1))
+        {
+            if(Valuator.isNaturalBlackjack(hand)) return true;
+        }
+
+        return false;
     }
 }

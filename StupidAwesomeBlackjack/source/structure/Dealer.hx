@@ -12,6 +12,7 @@ class Dealer
 
 		//todo: replace with config rules (soft 17)
 		if (value < 17) return true;
-		else return false;
+		
+		return false;
 	}
 }

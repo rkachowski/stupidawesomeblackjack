@@ -7,6 +7,7 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 
+import game.rules.Outcome;
 import game.Shoe;
 import game.structure.Round;
 
@@ -30,7 +31,7 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		super.create();
-		_shoe = new Shoe(4);
+		_shoe = new ContinuousShuffleShoe(4);
 
 		setupUI();
 		newRound();
@@ -57,6 +58,11 @@ class PlayState extends FlxState
 		_round = new Round(_shoe);
 		_nextButton.active = false;
 		updateScores();
+
+		if(_round.playerHasBlackjack())
+		{
+			endRound();
+		}
 	}
 
 	/**
@@ -72,6 +78,7 @@ class PlayState extends FlxState
 	{
 		_round.addPlayerCard();
 		updateScores();
+
 		if(_round.isPlayerBust())
 		{
 			endRound();
@@ -86,6 +93,7 @@ class PlayState extends FlxState
 
 	function endRound()
 	{
+		outputResults();
 		updateScores();
 		_nextButton.active = true;
 	}
@@ -103,11 +111,9 @@ class PlayState extends FlxState
 		_playerScore.text = "Player - " + value[1].softness +" " + value[1].value + " " +_round.getHand(1);
 	}
 
-	/**
-	 * Function that is called once every frame.
-	 */
-	override public function update():Void
+	function outputResults()
 	{
-		super.update();
-	}	
+		trace(Outcome.assessRound(_round));
+	}
+	
 }

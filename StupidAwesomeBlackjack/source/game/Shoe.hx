@@ -23,11 +23,19 @@ class Shoe {
 
 	public function takeCard():Card
 	{
-		//TODO: check if shoe should be changed
 		var card = _cards.pop();
 
-		//TODO: update statistics
+		//TODO: check if shoe should be changed	
+		
+		return card;
+	}
+}
 
+class ContinuousShuffleShoe extends Shoe{
+	override public function takeCard():Card
+	{
+		var card = _cards[0];
+		shuffle(_cards);
 		return card;
 	}
 }
