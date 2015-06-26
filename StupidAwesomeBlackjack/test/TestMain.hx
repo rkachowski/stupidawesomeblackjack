@@ -6,6 +6,7 @@ class TestMain  {
 	{
 		var runner = new haxe.unit.TestRunner();
 		runner.add(new ValuatorTest());
+		runner.add(new OutcomeTest());
 		runner.run();
 	}	
 }

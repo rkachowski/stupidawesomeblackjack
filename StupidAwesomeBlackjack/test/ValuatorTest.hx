@@ -9,12 +9,10 @@ import haxe.unit.TestCase ;
 
 class ValuatorTest extends TestCase {
 	var testHand:Hand = new Hand();
-	var testCards:Array<Card>;
 
 	override public function setup()
 	{
 		testHand = new Hand();
-		testCards = new Array<Card>();
 	}
 
 	public function testBasic()
