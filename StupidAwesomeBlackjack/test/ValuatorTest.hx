@@ -116,6 +116,20 @@ class ValuatorTest extends TestCase {
 		assertEquals(false, Valuator.isBust(testHand));
 		testHand.addCard(new Card(Clubs,Pip.TEN));
 		assertEquals(true, Valuator.isBust(testHand));
+	}
 
+	public function testBlackjackDetection()
+	{
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		testHand.addCard(new Card(Clubs,Pip.JACK));
+		assertEquals(true, Valuator.isNaturalBlackjack(testHand));
+		testHand.addCard(new Card(Clubs,Pip.TWO));
+		assertEquals(false, Valuator.isNaturalBlackjack(testHand));
+
+		testHand = new Hand();
+		testHand.addCard(new Card(Clubs,Pip.JACK));
+		testHand.addCard(new Card(Clubs,Pip.EIGHT));
+		testHand.addCard(new Card(Clubs,Pip.THREE));
+		assertEquals(false, Valuator.isNaturalBlackjack(testHand));
 	}
 }
