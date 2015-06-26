@@ -72,11 +72,20 @@ class PlayState extends FlxState
 	{
 		_round.addPlayerCard();
 		updateScores();
+		if(_round.isPlayerBust())
+		{
+			endRound();
+		}
 	}
 
 	function onStand()
 	{
 		_round.dealerTurn();
+		endRound();
+	}
+
+	function endRound()
+	{
 		updateScores();
 		_nextButton.active = true;
 	}

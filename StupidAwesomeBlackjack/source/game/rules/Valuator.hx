@@ -15,23 +15,29 @@ class Valuator
 {
 	public static function calculateValue(hand:Hand):Int
 	{
-		var cardValues = hand.getCards().map(function(c:Card){
+		return sumi(softify(valuesForHand(hand)));
+	}
+
+	public static function valuesForHand(hand:Hand):Array<Int>
+	{
+		return hand.getCards().map(function(c:Card){
 			return Valuator.getCardValue(c);
 		});
-
-		return sumi(softify(cardValues));
 	}
 
 	public static function calculateSoftness(values:Array<Int>):Softness
 	{
-		return if (Lambda.has(softify(values), 11)) Softness.SOFT else Softness.HARD;
+		return Lambda.has(softify(values), 11) ? Softness.SOFT : Softness.HARD;
 	}
 
 	public static function calculateHandSoftness(hand:Hand):Softness
 	{
-		return calculateSoftness(hand.getCards().map(function(c:Card){
-			return Valuator.getCardValue(c);
-		}));
+		return calculateSoftness(valuesForHand(hand));
+	}
+
+	public static function isBust(hand:Hand):Bool
+	{
+		return calculateValue(hand) < 22 ? false : true;
 	}
 
 	static function softify(values:Array<Int>):Array<Int>
@@ -42,10 +48,14 @@ class Valuator
 			result[result.indexOf(11)] = 1;
 			return softify(result);
 		}
-		else
-		{
-			return values;
-		}
+		
+		return values;
+	}
+
+	public static function isNaturalBlackjack(hand:Hand):Bool
+	{	
+		var values = valuesForHand(hand);
+		return (values.length == 2 && Lambda.has(values, 11) && Lambda.has(values, 10));
 	}
 
 	public static function getCardValue(card:Card):Int

@@ -7,6 +7,7 @@ import structure.Dealer;
 
 class Round
 {
+    var DEALER_HAND:Int = 0;
 
     var _hands:Array<Hand>;
     var _shoe:Shoe;
@@ -32,7 +33,7 @@ class Round
 
     public function dealerTurn()
     {
-    	if(Dealer.shouldHit(_hands[0]))
+    	if(Dealer.shouldHit(_hands[DEALER_HAND]))
     	{
     		addDealerCard();
     		dealerTurn();
@@ -46,7 +47,7 @@ class Round
 
     function addDealerCard()
     {
-        _hands[0].addCard(_shoe.takeCard());
+        _hands[DEALER_HAND].addCard(_shoe.takeCard());
     }
 
     public function getRoundValue()
@@ -60,5 +61,15 @@ class Round
     public function getHand(hand_number:Int):Hand
     {
         return _hands[hand_number];
+    }
+
+    public function isPlayerBust():Bool
+    {
+        for(hand in _hands.slice(DEALER_HAND + 1))
+        {
+            if(!Valuator.isBust(hand)) return false;
+        }
+
+        return true;
     }
 }

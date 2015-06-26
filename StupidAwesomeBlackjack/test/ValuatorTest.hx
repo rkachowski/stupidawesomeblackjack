@@ -92,4 +92,30 @@ class ValuatorTest extends TestCase {
 		assertEquals(18, Valuator.calculateValue(testHand));
 		assertEquals(Softness.HARD, Valuator.calculateHandSoftness(testHand));
 	}
+
+	public function testBust()
+	{
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		assertEquals(false, Valuator.isBust(testHand));
+		testHand.addCard(new Card(Clubs,Pip.JACK));
+		assertEquals(false, Valuator.isBust(testHand));
+		testHand.addCard(new Card(Clubs,Pip.JACK));
+		assertEquals(false, Valuator.isBust(testHand));
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		assertEquals(true, Valuator.isBust(testHand));
+
+		testHand = new Hand();
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		testHand.addCard(new Card(Clubs,Pip.ACE));
+		assertEquals(false, Valuator.isBust(testHand));
+		testHand.addCard(new Card(Clubs,Pip.KING));
+		assertEquals(false, Valuator.isBust(testHand));
+		testHand.addCard(new Card(Clubs,Pip.TEN));
+		assertEquals(true, Valuator.isBust(testHand));
+
+	}
 }
